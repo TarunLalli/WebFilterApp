@@ -1,17 +1,19 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import Flask-CORS
 from dotenv import load_dotenv
 import os
-from models.openai_model import edit_html_with_openai  # Import the function from models folder
+from models.openai_model import edit_html_with_openai  # Assuming you are using a separate model file
 
 # Load environment variables
 load_dotenv()
-
-# Set up OpenAI API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
 if not openai_api_key:
     raise ValueError("OpenAI API key is missing. Please add it to the .env file.")
 
 app = Flask(__name__)
+
+# Enable CORS for all routes
+CORS(app)
 
 @app.route('/process', methods=['POST'])
 def process_html():
